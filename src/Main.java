@@ -1,5 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -107,6 +108,88 @@ public class Main {
         }
     }
 
+    public static void getExample(String get) {
+
+        try {
+            // İstekte bulunacak URL
+            URL url = new URL("http://localhost:8080/api/v1/companies/companylist");
+
+            // URL ile bağlantı oluşturma
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // İstek metodunu GET olarak belirleyelim
+            connection.setRequestMethod(get);
+
+            // İstek yanıt kodunu alalım
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Yanıt mesajını okuyalım
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            // Yanıtı ekrana yazdıralım
+            System.out.println("Response: " + response.toString());
+
+            // Bağlantıyı kapat
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void postExample(String post) {
+        try {
+            // İstekte bulunacağımız URL'yi belirtelim
+            URL url = new URL("http://localhost:8080/api/v1/companies/newcompany");
+
+            // URL ile bağlantı oluşturalım
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            // İstek metodunu POST olarak belirleyelim
+            connection.setRequestMethod(post);
+
+            // İstek başlıklarını (header) belirleyelim
+            connection.setRequestProperty("Content-Type", "application/json");
+
+            // İçeriği gönderilecek veriyi oluşturalım
+            String body = "{\"companyName\":\"test8\"}";
+
+            // Veriyi yazma ve gönderme işlemlerini yapalım
+            connection.setDoOutput(true);
+            OutputStream outputStream = connection.getOutputStream();
+            outputStream.write(body.getBytes());
+            outputStream.flush();
+            outputStream.close();
+
+            // İstek yanıt kodunu alalım
+            int responseCode = connection.getResponseCode();
+            System.out.println("Response Code: " + responseCode);
+
+            // Yanıt mesajını okuyalım
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String line;
+            StringBuilder response = new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+            reader.close();
+
+            // Yanıtı ekrana yazdıralım
+            System.out.println("Response: " + response.toString());
+
+            // Bağlantıyı kapat
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
 
         // Verilen tablo verileri
@@ -138,6 +221,13 @@ public class Main {
         System.out.println(
                 "\n d. Tek tek mal bazli, mallarin hangi siparislerde kac adet olduğunun ciktisini veren java kodu. ");
         quantitiesByProductAndOrder(data);
+
+        System.out.println(
+                "\n POST Example");
+        postExample("POST");
+        System.out.println(
+                "\n GET Example");
+        getExample("GET");
 
     }
 

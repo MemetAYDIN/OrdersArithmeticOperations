@@ -66,7 +66,7 @@ public class Main {
             }
         }
 
-        System.out.println("Mal No\tSipariş No\tAdet");
+        System.out.println("Mal No\tSiparis No\tAdet");
         for (Map.Entry<Integer, Map<Integer, Integer>> entry : quantitiesByProductAndOrder.entrySet()) {
             int product = entry.getKey();
             Map<Integer, Integer> quantitiesByOrder = entry.getValue();
@@ -107,57 +107,6 @@ public class Main {
         }
     }
 
-    public static void httpRequestFunc() {
-        try {
-            // GET Request örneği
-            URL url = new URL("http://localhost:8080//data");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-
-            int responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String response;
-            StringBuilder responseContent = new StringBuilder();
-
-            while ((response = reader.readLine()) != null) {
-                responseContent.append(response);
-            }
-            reader.close();
-
-            System.out.println("Response Content: " + responseContent.toString());
-
-            connection.disconnect();
-
-            // POST Request örneği
-            url = new URL("http://localhost:8080//data");
-            connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoOutput(true);
-
-            String postData = "param1=value1&param2=value2";
-            connection.getOutputStream().write(postData.getBytes());
-
-            responseCode = connection.getResponseCode();
-            System.out.println("Response Code: " + responseCode);
-
-            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            responseContent = new StringBuilder();
-
-            while ((response = reader.readLine()) != null) {
-                responseContent.append(response);
-            }
-            reader.close();
-
-            System.out.println("Response Content: " + responseContent.toString());
-
-            connection.disconnect();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) {
 
         // Verilen tablo verileri
@@ -180,12 +129,15 @@ public class Main {
                 { 1002, 2005, 9, 44.1 },
                 { 1002, 2006, 19, 90 }
         };
-
+        System.out.println("\n a. Uc siparisteki mallarin toplam tutarinin ciktisini veren java kodu.");
         totalPriceByOrder(data);
+        System.out.println("\n b. Uc siparisteki butun mallarin ortalama fiyatini bulan java kodu");
         totalPriceSum(data);
+        System.out.println("\n c. Uc siparisteki butun mallarin tek tek mal bazli ortalama fiyatini bulan java kodu. ");
         averagePriceByProduct(data);
+        System.out.println(
+                "\n d. Tek tek mal bazli, mallarin hangi siparislerde kac adet olduğunun ciktisini veren java kodu. ");
         quantitiesByProductAndOrder(data);
-        httpRequestFunc();
 
     }
 

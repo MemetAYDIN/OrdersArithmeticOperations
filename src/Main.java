@@ -65,20 +65,36 @@ public class Main {
                 quantitiesByOrder.put(order, quantity);
                 quantitiesByProductAndOrder.put(product, quantitiesByOrder);
             }
+
+            /*
+             * quantitiesByProductAndOrder.putIfAbsent(product, new HashMap<>());
+             * Map<Integer, Integer> quantitiesByOrder =
+             * quantitiesByProductAndOrder.get(product);
+             * 
+             * quantitiesByOrder.put(order, quantitiesByOrder.getOrDefault(order, 0) +
+             * quantity);
+             */
+
         }
+        /*
+         * for (Map.Entry<Integer, Map<Integer, Integer>> entry :
+         * quantitiesByProductAndOrder.entrySet()) {
+         * int product = entry.getKey();
+         * Map<Integer, Integer> quantitiesByOrder = entry.getValue();
+         * 
+         * for (Map.Entry<Integer, Integer> subEntry : quantitiesByOrder.entrySet()) {
+         * int order = subEntry.getKey();
+         * int quantity = subEntry.getValue();
+         * 
+         * System.out.println(product + "\t" + order + "\t\t" + quantity);
+         * }
+         * }
+         */
 
         System.out.println("Mal No\tSiparis No\tAdet");
-        for (Map.Entry<Integer, Map<Integer, Integer>> entry : quantitiesByProductAndOrder.entrySet()) {
-            int product = entry.getKey();
-            Map<Integer, Integer> quantitiesByOrder = entry.getValue();
+        quantitiesByProductAndOrder.forEach((product, quantitiesByOrder) -> quantitiesByOrder
+                .forEach((order, quantity) -> System.out.println(product + "\t" + order + "\t\t" + quantity)));
 
-            for (Map.Entry<Integer, Integer> subEntry : quantitiesByOrder.entrySet()) {
-                int order = subEntry.getKey();
-                int quantity = subEntry.getValue();
-
-                System.out.println(product + "\t" + order + "\t\t" + quantity);
-            }
-        }
     }
 
     public static void averagePriceByProduct(double[][] data) {
@@ -158,7 +174,7 @@ public class Main {
             connection.setRequestProperty("Content-Type", "application/json");
 
             // İçeriği gönderilecek veriyi oluşturalım
-            String body = "{\"companyName\":\"test8\"}";
+            String body = "{\"companyName\":\"test10\"}";
 
             // Veriyi yazma ve gönderme işlemlerini yapalım
             connection.setDoOutput(true);
